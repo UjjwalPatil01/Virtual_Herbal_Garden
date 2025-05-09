@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us - Virtual Herbal Garden</title>
+  <!-- Google Fonts for typography -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+  <!-- Font Awesome for social icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    integrity="sha512-NP2D9D6N83p8QMJp6Uq1GzYhqT6FuhKp0AHbCZEUQa7nBMnY7xlL/KFDKXwjwz4S9srsKjoG3tPSy0Mpgs5bOA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="/css/nav.css">
+  <link rel="stylesheet" href="/css/contact.css">
+</head>
+
+<body>
+  <!-- NAVIGATION BAR -->
+  <nav class="navbar">
+    <!-- Back Button (using history.back()) -->
+    <div class="back-btn">
+      <a href="javascript:history.back()" title="Back">Back</a>
+    </div>
+    <ul>
+      <li><a href="/index.html" title="Home">Home</a></li>
+      <li><a href="/html/categories.html" title="Categories">Categories</a></li>
+      <li><a href="/html/about.html" title="About Us">About Us</a></li>
+      <li><a href="/html/contact.html" title="Contact">Contact</a></li>
+      <li><a href="/html/signup.html" title="Sign-Up">Sign-Up</a></li>
+    </ul>
+  </nav>
+
+  <!-- CONTACT CONTENT -->
+  <div class="contact-container">
+    <!-- LEFT PANEL: CONTACT INFORMATION -->
+    <div class="contact-info">
+      <h2>Contact Information</h2>
+      <p><strong>Phone:</strong> +1012 3456 7890</p>
+      <p><strong>Email:</strong> support@virtualherbalgarden.com</p>
+      <p><strong>Address:</strong>Computer Department SSBT COET, Jalgoan</p>
+      <div class="social-icons">
+        <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" title="Discord"><i class="fab fa-discord"></i></a>
+      </div>
+    </div>
+    <!-- RIGHT PANEL: CONTACT FORM -->
+    <div class="contact-form">
+      <form action="#" method="post">
+        <div class="form-group">
+          <div style="flex: 1;">
+            <label for="first-name">First Name</label>
+            <input type="text" id="first-name" name="first-name" placeholder="Your first name" required>
+          </div>
+          <div style="flex: 1;">
+            <label for="last-name">Last Name</label>
+            <input type="text" id="last-name" name="last-name" placeholder="Your last name" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <div style="flex: 1;">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Your email address" required>
+          </div>
+          <div style="flex: 1;">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="Your phone number" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <select id="subject" name="subject" required>
+            <option value="General Inquiry">General Inquiry</option>
+            <option value="Support Request">Support Request</option>
+            <option value="Feedback">Feedback</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="Your message here" required></textarea>
+        </div>
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <span>&copy; 2025 Virtual Herbal Garden</span>
+    <a href="#top" title="Back to Top">Back to Top</a>
+  </footer>
+</body>
+<script>
+  const form = document.querySelector('form');
+  
+  form.addEventListener('submit', async function (event) {
+    event.preventDefault(); // Prevent form from submitting normally
+
+    // Get the form data
+    const formData = new FormData(form);
+    const data = {
+      firstName: formData.get('first-name'),
+      lastName: formData.get('last-name'),
+      email: formData.get('email'),
+      phone: formData.get('phone'),
+      subject: formData.get('subject'),
+      message: formData.get('message'),
+    };
+
+    try {
+      // Send the data to the server using fetch API
+      const response = await fetch('http://localhost:5000/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert(result.message); // Success message
+        form.reset(); // Reset the form after submission
+      } else {
+        alert(result.message); // Error message
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while submitting the form. Please try again later.');
+    }
+  });
+</script>
+
+</html>

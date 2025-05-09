@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard - Virtual Herbal Garden</title>
+  <!-- Google Fonts for Typography -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" 
+        integrity="sha512-NP2D9D6N83p8QMJp6Uq1GzYhqT6FuhKp0AHbCZEUQa7nBMnY7xlL/KFDKXwjwz4S9srsKjoG3tPSy0Mpgs5bOA==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* ==================== GLOBAL RESET ==================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: 'Roboto', sans-serif;
+    }
+    body {
+      background-image: url(/images/green-bg.jpg);
+      background-size: cover;
+      background-attachment: fixed;
+      color: #fff;
+      line-height: 1.6;
+    }
+
+    /* ==================== TOP NAVIGATION BAR ==================== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 20px 40px;
+      background: rgba(32, 31, 31, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      transition: background 0.3s ease;
+    }
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .navbar li {
+      margin: 0 20px;
+    }
+    .navbar a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 10px 20px;
+      border: 2px solid transparent;
+      border-radius: 25px;
+      transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+    .navbar a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: #fff;
+      color: #000;
+      transform: scale(1.05);
+    }
+    .navbar a:active {
+      transform: scale(0.95);
+    }
+    .navbar .back-btn {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+    }
+    .navbar .back-btn a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: #fff;
+      color: #000;
+      transform: scale(1.05);
+    }
+
+    /* ==================== SIDEBAR MENU ==================== */
+    .sidebar {
+      position: fixed;
+      top: 80px; /* Below the nav bar */
+      left: 0;
+      width: 240px;
+      height: calc(100% - 80px);
+      background: rgba(32, 31, 31, 0.9);
+      padding: 20px;
+      overflow-y: auto;
+      transition: all 0.3s ease;
+    }
+    .sidebar h2 {
+      margin-bottom: 20px;
+      font-size: 1.5em;
+      text-align: center;
+    }
+    .sidebar ul {
+      list-style: none;
+    }
+    .sidebar li {
+      margin-bottom: 15px;
+    }
+    .sidebar a {
+      text-decoration: none;
+      display: block;
+      color: #fff;
+      font-size: 1.1em;
+      padding: 10px;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+    }
+    .sidebar a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #000;
+    }
+
+    /* ==================== MAIN DASHBOARD CONTENT ==================== */
+    .dashboard-content {
+      margin-left: 260px; /* Sidebar width + padding */
+      padding: 100px 40px 40px 40px;
+      min-height: calc(100vh - 100px);
+      transition: margin 0.3s ease;
+    }
+    section {
+      margin-bottom: 60px;
+    }
+    section h2 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #fff;
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+
+    /* ------------------- Overview Section ------------------- */
+    .overview-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .overview-card {
+      background: rgba(32, 31, 31, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    .overview-card h3 {
+      margin-bottom: 10px;
+    }
+    .overview-card p,
+    .overview-card ul {
+      font-size: 1em;
+    }
+    .overview-card ul li {
+      margin-bottom: 5px;
+      list-style-type: disc;
+      margin-left: 20px;
+    }
+    .stat {
+      font-size: 2em;
+      font-weight: 700;
+    }
+
+    /* ------------------- Plant & Herb Management ------------------- */
+    .plant-database,
+    .growth-tracker,
+    .sensor-monitoring {
+      margin-bottom: 40px;
+    }
+    .plant-database input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+    .plant-database table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .plant-database th,
+    .plant-database td {
+      padding: 10px;
+      border: 1px solid rgba(255,255,255,0.2);
+      text-align: left;
+    }
+    .plant-database th {
+      background: rgba(255,255,255,0.1);
+    }
+    .growth-tracker .timeline {
+      border-left: 3px solid #fff;
+      margin-left: 20px;
+      padding-left: 20px;
+    }
+    .timeline-event {
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .timeline-event::before {
+      content: "";
+      position: absolute;
+      left: -12px;
+      top: 5px;
+      width: 10px;
+      height: 10px;
+      background: #fff;
+      border-radius: 50%;
+    }
+    .timeline-event .event-date {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    .timeline-event img {
+      width: 100px;
+      height: 70px;
+      object-fit: cover;
+      margin-top: 5px;
+      border-radius: 5px;
+    }
+    .sensor-cards {
+      display: flex;
+      gap: 20px;
+    }
+    .sensor-card {
+      flex: 1;
+      background: rgba(32, 31, 31, 0.8);
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .sensor-card h4 {
+      margin-bottom: 10px;
+    }
+
+    /* ------------------- Community Section ------------------- */
+    .community-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .community-card {
+      background: rgba(32, 31, 31, 0.8);
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    }
+    .community-card h3 {
+      margin-bottom: 10px;
+    }
+    .article-card {
+      display: flex;
+      margin-bottom: 10px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    .article-card img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+    }
+    .article-info {
+      padding: 10px;
+    }
+    .forum-list,
+    .events-list {
+      list-style: none;
+      padding-left: 0;
+    }
+    .forum-list li,
+    .events-list li {
+      margin-bottom: 8px;
+      padding: 5px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 5px;
+    }
+    .forum-list li a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ------------------- E-Commerce Section ------------------- */
+    .ecommerce-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .ecommerce-card {
+      background: rgba(32, 31, 31, 0.8);
+      padding: 20px;
+      border-radius: 8px;
+    }
+    .ecommerce-card ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .ecommerce-card li {
+      margin-bottom: 8px;
+    }
+
+    /* ------------------- Customization & Settings ------------------- */
+    .settings-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .profile-card, .notifications-card {
+      background: rgba(32, 31, 31, 0.8);
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .profile-pic {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+    .notifications-card ul {
+      list-style: none;
+      text-align: left;
+      padding-left: 0;
+    }
+    .notifications-card li {
+      background: rgba(255,255,255,0.1);
+      margin-bottom: 8px;
+      padding: 8px;
+      border-radius: 5px;
+    }
+
+    /* ==================== RESPONSIVE STYLES ==================== */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 200px;
+      }
+      .dashboard-content {
+        margin-left: 220px;
+        padding: 80px 20px 20px 20px;
+      }
+    }
+    @media (max-width: 480px) {
+      .sidebar {
+        display: none;
+      }
+      .dashboard-content {
+        margin-left: 0;
+        padding: 100px 20px;
+      }
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: rgba(32, 31, 31, 0.8);
+    }
+  </style>
+</head>
+<body>
+  <!-- TOP NAVIGATION BAR -->
+  <nav class="navbar">
+    <!-- Logout (or back) button -->
+    <div class="back-btn">
+      <a href="/html/signup.html" title="Logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+    <ul>
+      <li><a href="/index.html" title="Home">Home</a></li>
+      <li><a href="/html/categories.html" title="Categories">Categories</a></li>
+      <li><a href="/html/about.html" title="About Us">About Us</a></li>
+      <li><a href="/html/contact.html" title="Contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- SIDEBAR MENU -->
+  <aside class="sidebar">
+    <h2>Herbal Garden</h2>
+    <ul>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#plant-management">Plant Management</a></li>
+      <li><a href="#community">Community</a></li>
+      <li><a href="#ecommerce">Store</a></li>
+      <li><a href="#settings">Settings</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN DASHBOARD CONTENT -->
+  <main class="dashboard-content">
+    <!-- 1. Overview Section -->
+    <section id="overview">
+      <h2>Overview</h2>
+      <div class="overview-cards">
+        <!-- Total Plants & Herbs -->
+        <div class="overview-card">
+          <h3>Total Plants & Herbs</h3>
+          <p><span class="stat">45</span> Plants</p>
+        </div>
+        <!-- Garden Health Summary -->
+        <div class="overview-card">
+          <h3>Garden Health Summary</h3>
+          <ul>
+            <li>Soil Moisture: 75%</li>
+            <li>Temperature: 28°C</li>
+            <li>Humidity: 70%</li>
+          </ul>
+        </div>
+        <!-- Upcoming Tasks -->
+        <div class="overview-card">
+          <h3>Upcoming Tasks</h3>
+          <ul>
+            <li>Watering in 2 hours</li>
+            <li>Fertilization Tomorrow</li>
+            <li>Harvesting on Friday</li>
+          </ul>
+        </div>
+        <!-- Recent Activity -->
+        <div class="overview-card">
+          <h3>Recent Activity</h3>
+          <ul>
+            <li>Aloe Vera planted</li>
+            <li>Mint harvested</li>
+            <li>Basil growth updated</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Plant & Herb Management -->
+    <section id="plant-management">
+      <h2>Plant & Herb Management</h2>
+      <!-- Plant Database -->
+      <div class="plant-database">
+        <h3>Plant Database</h3>
+        <input type="text" placeholder="Search herbs..." id="plant-search" />
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Medicinal Benefits</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Aloe Vera</td>
+              <td>Succulent with healing properties</td>
+              <td>Soothes skin, burns</td>
+            </tr>
+            <tr>
+              <td>Basil</td>
+              <td>Aromatic herb for cooking</td>
+              <td>Antioxidant, anti-inflammatory</td>
+            </tr>
+            <tr>
+              <td>Mint</td>
+              <td>Aromatic herb for teas and remedies</td>
+              <td>Digestive aid, cooling</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Growth Tracker -->
+      <div class="growth-tracker">
+        <h3>Growth Tracker</h3>
+        <div class="timeline">
+          <div class="timeline-event">
+            <div class="event-date">Jan 15</div>
+            <div class="event-content">
+              <strong>Aloe Vera</strong> planted.
+              <br>
+              <img src="/images/herb1.jpg" alt="Aloe Vera Stage">
+            </div>
+          </div>
+          <div class="timeline-event">
+            <div class="event-date">Feb 10</div>
+            <div class="event-content">
+              <strong>Basil</strong> sprouted.
+              <br>
+              <img src="/images/herb2.jpg" alt="Basil Sprout">
+            </div>
+          </div>
+          <div class="timeline-event">
+            <div class="event-date">Mar 05</div>
+            <div class="event-content">
+              <strong>Mint</strong> matured.
+              <br>
+              <img src="/images/herb3.jpg" alt="Mint Mature">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Weather & Soil Monitoring -->
+      <div class="sensor-monitoring">
+        <h3>Weather & Soil Monitoring</h3>
+        <div class="sensor-cards">
+          <div class="sensor-card">
+            <h4>Temperature</h4>
+            <p>28°C</p>
+          </div>
+          <div class="sensor-card">
+            <h4>Humidity</h4>
+            <p>70%</p>
+          </div>
+          <div class="sensor-card">
+            <h4>Soil Moisture</h4>
+            <p>75%</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. User Engagement & Community -->
+    <section id="community">
+      <h2>User Engagement & Community</h2>
+      <div class="community-section">
+        <!-- Blog & Articles -->
+        <div class="community-card">
+          <h3>Blog & Articles</h3>
+          <div class="article-card">
+            <img src="/images/article1.jpg" alt="Herbal Benefits">
+            <div class="article-info">
+              <h4>Herbal Benefits Explained</h4>
+              <p>Discover how herbs can improve your health.</p>
+            </div>
+          </div>
+          <div class="article-card">
+            <img src="/images/article2.jpg" alt="Garden Tips">
+            <div class="article-info">
+              <h4>5 Tips for a Thriving Garden</h4>
+              <p>Enhance your garden care with these tips.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Forum/Community Section -->
+        <div class="community-card">
+          <h3>Forum & Community</h3>
+          <ul class="forum-list">
+            <li><a href="#">How do I improve soil quality?</a></li>
+            <li><a href="#">Best herbs for beginners</a></li>
+            <li><a href="#">Share your gardening successes!</a></li>
+          </ul>
+        </div>
+        <!-- Events & Workshops -->
+        <div class="community-card">
+          <h3>Events & Workshops</h3>
+          <ul class="events-list">
+            <li>
+              <strong>Herb Workshop</strong> - April 10, 2025<br>
+              Learn about sustainable herb gardening.
+            </li>
+            <li>
+              <strong>Organic Farming Seminar</strong> - May 5, 2025<br>
+              Discover organic cultivation practices.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. E-Commerce Section (If Applicable) -->
+    <section id="ecommerce">
+      <h2>E-Commerce Dashboard</h2>
+      <div class="ecommerce-cards">
+        <div class="ecommerce-card">
+          <h3>Online Store Stats</h3>
+          <ul>
+            <li>Stock Levels: Adequate</li>
+            <li>Total Orders: 25</li>
+            <li>Sales Today: $150</li>
+          </ul>
+        </div>
+        <div class="ecommerce-card">
+          <h3>Customer Orders & Queries</h3>
+          <ul>
+            <li>Order #1024 - Pending</li>
+            <li>Order #1023 - Completed</li>
+            <li>New query from customer John</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Customization & Settings Section -->
+    <section id="settings">
+      <h2>Customization & Settings</h2>
+      <div class="settings-container">
+        <div class="profile-card">
+          <h3>User Profile</h3>
+          <img src="/images/profile.jpg" alt="User Profile" class="profile-pic" />
+          <p>Name: John Doe</p>
+          <p>Garden Size: Medium</p>
+          <p>Interests: Organic Herbs, Sustainability</p>
+        </div>
+        <div class="notifications-card">
+          <h3>Notification System</h3>
+          <ul>
+            <li>Reminder: Water your garden in 1 hour.</li>
+            <li>Alert: Mint shows signs of disease.</li>
+            <li>Update: New blog post available.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    &copy; 2025 Virtual Herbal Garden. All rights reserved.
+  </footer>
+
+  <!-- Optional JavaScript for interactivity -->
+  <script>
+    // Simple search filter for the plant database table
+    document.getElementById('plant-search').addEventListener('keyup', function() {
+      let filter = this.value.toUpperCase();
+      let table = this.nextElementSibling;
+      let tr = table.getElementsByTagName('tr');
+      for (let i = 1; i < tr.length; i++) {
+        let td = tr[i].getElementsByTagName('td')[0];
+        if (td) {
+          let txtValue = td.textContent || td.innerText;
+          tr[i].style.display = (txtValue.toUpperCase().indexOf(filter) > -1) ? "" : "none";
+        }
+      }
+    });
+  </script>
+</body>
+</html>

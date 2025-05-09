@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GARDEN - Virtual Herbal Garden</title>
+  <!-- Google Fonts for modern typography -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="/css/nav.css">
+  <link rel="stylesheet" href="/css/3d_garden.css">
+</head>
+
+<body>
+
+  <!-- NAVIGATION BAR -->
+  <nav class="navbar">
+    <!-- Back Button -->
+    <div class="back-btn">
+      <a href="javascript:history.back()" title="Back">Back</a>
+    </div>
+    <ul>
+      <li><a href="/index.html" title="Home">Home</a></li>
+      <li><a href="/html/categories.html" title="Categories">Categories</a></li>
+      <li><a href="/html/about.html" title="About Us">About Us</a></li>
+      <li><a href="/html/contact.html" title="Contact">Contact</a></li>
+      <li><a href="/html/signup.html" title="Sign-Up">Sign-Up</a></li>
+    </ul>
+  </nav>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <div class="container">
+    <h1>3D GARDEN</h1>
+    <div class="grid-container">
+      <!-- Card 1: Tulsi -->
+      <a href="/plants_html/tulsi.html" class="card">
+        <img src="/images/tulsi03.jpg" alt="Tulsi">
+        <div class="plant-name">Tulsi</div>
+      </a>
+
+      <!-- Card 7: Aloe Vera -->
+      <a href="/plants_html/aloevera.html" class="card">
+        <img src="/images/Aloe Vera.jpg" alt="Aloe Vera">
+        <div class="plant-name">Aloe Vera</div>
+      </a>
+      <!-- Card 8: Barberry -->
+      <a href="/plants_html/barberry.html" class="card">
+        <img src="/images/berberry.jpg" alt="Berberry">
+        <div class="plant-name">Berberry</div>
+      </a>
+      <!-- Card 9: Bacopa Monnieri -->
+      <a href="/plants_html/bacopa_monnieri.html" class="card">
+        <img src="/images/bacopa.jpg" alt="Bacopa Monnieri">
+        <div class="plant-name">Bacopa Monnieri</div>
+      </a>
+      <!-- Card 10: Chamomile -->
+      <a href="/plants_html/chamomile.html" class="card">
+        <img src="/images/chamomile.jpg" alt="Chamomile">
+        <div class="plant-name">Chamomile</div>
+      </a>
+
+      <a href="/plants_html/kalnchoe.html" class="card">
+        <img src="/images/kala.jpg" alt="Kalanchoe Calandiva">
+        <div class="plant-name">Kalanchoe Calandiva</div>
+      </a>
+
+      <!-- Card 2: Ashwagandha -->
+      <a href="/plants_html/ashwagandha.html" class="card">
+        <img src="/images/Ashwagandha1.jpeg" alt="Ashwagandha">
+        <div class="plant-name">Ashwagandha</div>
+      </a>
+      <!-- Card 3: Cardamom -->
+      <a href="/plants_html/cardamom.html" class="card">
+        <img src="/images/cardamom plant.jpeg" alt="Cardamom">
+        <div class="plant-name">Cardamom</div>
+      </a>
+      <!-- Card 4: Cinnamon -->
+      <a href="/plants_html/cinnamon.html" class="card">
+        <img src="/images/Cinnamon Bush.jpeg" alt="Cinnamon">
+        <div class="plant-name">Cinnamon</div>
+      </a>
+      <!-- Card 5: Clove -->
+      <a href="/plants_html/clove.html" class="card">
+        <img src="/images/Clove.jpg" alt="Clove">
+        <div class="plant-name">Clove</div>
+      </a>
+      <!-- Card 6: Turmeric -->
+      <a href="/plants_html/turmeric.html" class="card">
+        <img src="/images/Turmeric plant1.jpeg" alt="Turmeric">
+        <div class="plant-name">Turmeric</div>
+      </a>
+    </div>
+  </div>
+  <br>
+
+
+  <!-- SCROLL ANIMATION SCRIPT -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cards = document.querySelectorAll('.card');
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const index = entry.target.dataset.index || 0;
+            entry.target.style.transitionDelay = index * 0.1 + 's';
+            entry.target.classList.add('animate');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+
+      cards.forEach((card, index) => {
+        card.dataset.index = index;
+        observer.observe(card);
+      });
+    });
+
+    function navigateTo(pageUrl) {
+      window.location.href = pageUrl;
+    }
+  </script>
+
+  <!-- Additional CSS for animate state -->
+  <style>
+    .card.animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+
+</body>
+
+</html>

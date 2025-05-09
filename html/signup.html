@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log in / Sign up - Virtual Herbal Garden</title>
+  <!-- Google Fonts for Typography -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+  <!-- Font Awesome for Social Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    integrity="sha512-NP2D9D6N83p8QMJp6Uq1GzYhqT6FuhKp0AHbCZEUQa7nBMnY7xlL/KFDKXwjwz4S9srsKjoG3tPSy0Mpgs5bOA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* ==================== GLOBAL RESET ==================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      font-family: 'Roboto', sans-serif;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      background-image: url(/images/green-bg.jpg);
+      color: #fff;
+    }
+
+    /* ==================== LOGIN CONTAINER ==================== */
+    .login-container {
+      max-width: 400px;
+      margin: 140px auto;
+      padding: 40px 30px;
+      background: rgba(32, 31, 31, 0.8);
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      position: relative;
+      z-index: 50;
+    }
+
+    .login-container h1 {
+      text-align: center;
+      font-size: 2.5em;
+      margin-bottom: 30px;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    }
+
+    /* ==================== SOCIAL LOGIN BUTTONS ==================== */
+    .social-login {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .social-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      border-radius: 30px;
+      padding: 10px;
+      color: #fff;
+      font-size: 1em;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .social-btn img {
+      width: 24px;
+      height: 24px;
+      margin-right: 10px;
+    }
+    .social-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.02);
+    }
+
+    /* ==================== DIVIDER ==================== */
+    .divider {
+      text-align: center;
+      margin: 20px 0;
+      position: relative;
+    }
+    .divider::before,
+    .divider::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 40%;
+      height: 1px;
+      background: #fff;
+    }
+    .divider::before {
+      left: 0;
+    }
+    .divider::after {
+      right: 0;
+    }
+    .divider span {
+      padding: 0 10px;
+    }
+
+    /* ==================== LOGIN FORM ==================== */
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .login-form .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+    .login-form label {
+      margin-bottom: 5px;
+      font-size: 1em;
+    }
+    .login-form input {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .remember-me input {
+      width: 20px;
+      height: 20px;
+    }
+    .login-btn {
+      padding: 15px;
+      font-size: 1.2em;
+      font-weight: 700;
+      background-color: black;
+      border: none;
+      border-radius: 30px;
+      color: #fff;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .login-btn:hover {
+      transform: scale(1.05);
+      color: #000;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-color: #fff;
+    }
+
+    /* ==================== RESPONSIVE STYLES ==================== */
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 15px 20px;
+      }
+      .navbar li {
+        margin: 0 10px;
+      }
+      .navbar a,
+      .navbar .back-btn a {
+        font-size: 1rem;
+        padding: 8px 15px;
+      }
+      .login-container {
+        margin: 120px auto;
+        padding: 30px 20px;
+      }
+      .login-container h1 {
+        font-size: 2em;
+        margin-bottom: 20px;
+      }
+      .social-btn {
+        font-size: 0.9em;
+      }
+      .login-btn {
+        font-size: 1em;
+      }
+    }
+    @media (max-width: 480px) {
+      .navbar ul {
+        flex-direction: column;
+      }
+      .navbar li {
+        margin: 10px 0;
+      }
+    }
+
+    /* ==================== NAVIGATION BAR ==================== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 20px 40px;
+      background: rgba(32, 31, 31, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      transition: background 0.3s ease;
+    }
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .navbar li {
+      margin: 0 20px;
+    }
+    .navbar a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 10px 20px;
+      border: 2px solid transparent;
+      border-radius: 25px;
+      transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+    .navbar a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: #fff;
+      color: #000;
+      transform: scale(1.05);
+    }
+    .navbar a:active {
+      transform: scale(0.95);
+    }
+    .navbar .back-btn {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+    }
+    .navbar .back-btn a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 8px 15px;
+      border: 2px solid transparent;
+      border-radius: 25px;
+      transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+    .navbar .back-btn a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: #fff;
+      color: #000;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVIGATION BAR -->
+  <nav class="navbar">
+    <!-- Back Button -->
+    <div class="back-btn">
+      <a href="javascript:history.back()" title="Back">Back</a>
+    </div>
+    <ul>
+      <li><a href="/index.html" title="Home">Home</a></li>
+      <li><a href="/html/categories.html" title="Categories">Categories</a></li>
+      <li><a href="/html/about.html" title="About Us">About Us</a></li>
+      <li><a href="/html/contact.html" title="Contact">Contact</a></li>
+      <li><a href="/html/signup.html" title="Sign-Up">Sign-Up</a></li>
+    </ul>
+  </nav>
+
+  <!-- LOGIN/SIGNUP CONTAINER -->
+  <div class="login-container">
+    <h1 id="form-heading">Log in</h1> <!-- This will toggle dynamically -->
+    <div class="social-login">
+      <a class="social-btn google" href="https://accounts.google.com/signin/v2/identifier?flowEntry=ServiceLogin" target="_blank" rel="noopener noreferrer">
+        <img src="/images/Google__G__logo.svg.webp" alt="Google Logo">
+        <span>Continue with Google</span>
+      </a>
+      <a class="social-btn facebook" href="https://www.facebook.com/login.php" target="_blank" rel="noopener noreferrer">
+        <img src="/images/Facebook_f_logo_(2021).svg.png" alt="Facebook Logo">
+        <span>Continue with Facebook</span>
+      </a>
+      <a class="social-btn apple" href="https://appleid.apple.com/" target="_blank" rel="noopener noreferrer">
+        <img src="/images/Apple-Logo.png" alt="Apple Logo">
+        <span>Continue with Apple</span>
+      </a>
+    </div>
+    <div class="divider"><span>or</span></div>
+    <!-- Login/Signup Form -->
+    <form class="login-form" id="auth-form">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+      </div>
+      <div class="remember-me">
+        <input type="checkbox" id="remember" name="remember">
+        <label for="remember">Remember me</label>
+      </div>
+      <button type="submit" class="login-btn">Log in</button>
+    </form>
+    <p id="toggle-text">
+      Don't have an account? <a href="#" id="toggle-link">Sign Up</a>
+    </p>
+  </div>
+
+  <script>
+    const authForm = document.getElementById("auth-form");
+    const formHeading = document.getElementById("form-heading");
+    const toggleText = document.getElementById("toggle-text");
+    let isSignUp = false; // Track whether it's signup or login
+
+    // Delegate click events on the toggle text container
+    toggleText.addEventListener("click", (e) => {
+      if (e.target && e.target.id === "toggle-link") {
+        e.preventDefault();
+        isSignUp = !isSignUp;
+        if (isSignUp) {
+          formHeading.textContent = "Sign Up";
+          toggleText.innerHTML = `Already have an account? <a href="#" id="toggle-link">Log In</a>`;
+          document.querySelector('.login-btn').textContent = "Sign Up";
+        } else {
+          formHeading.textContent = "Log In";
+          toggleText.innerHTML = `Don't have an account? <a href="#" id="toggle-link">Sign Up</a>`;
+          document.querySelector('.login-btn').textContent = "Log In";
+        }
+      }
+    });
+
+    // Handle form submission
+    authForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      // Use the appropriate API endpoint
+      const url = isSignUp ? "http://localhost:5000/signup" : "http://localhost:5000/login";
+
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        });
+
+        const result = await response.json();
+        if (response.status === 200) {
+          alert(`${isSignUp ? "Sign up" : "Login"} successful`);
+          // Redirect to the dashboard page
+          window.location.href = "/dashboard.html";
+        } else {
+          alert(result.message);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Something went wrong!");
+      }
+    });
+  </script>
+</body>
+</html>

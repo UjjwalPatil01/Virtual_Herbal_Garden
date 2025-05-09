@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Experts - Virtual Herbal Garden</title>
+  <!-- Google Fonts for modern typography -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+  <!-- External navbar styles only -->
+  <link rel="stylesheet" href="/css/nav.css">
+  <!-- Internal CSS for Experts page (excluding index.css) -->
+  <style>
+    /* Background video & overlay */
+    .video-background {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -2;
+    }
+    .video-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: -1;
+    }
+    
+    /* Main container for content */
+    .main-container {
+      padding: 60px 20px;
+    }
+    .content.experts-content {
+      text-align: center;
+      color: #fff;
+      position: relative;
+      z-index: 2;
+    }
+    .content.experts-content h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+    .content.experts-content p {
+      font-size: 18px;
+      margin-bottom: 30px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    /* Experts grid and cards */
+    .experts-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 30px;
+    }
+    .expert-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 8px;
+      padding: 15px;
+      width: 250px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease;
+    }
+    .expert-card:hover {
+      transform: scale(1.02);
+    }
+    .expert-card img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+    .expert-card h2 {
+      font-size: 20px;
+      margin: 10px 0 5px;
+      color: #333;
+    }
+    .expert-card h3 {
+      font-size: 16px;
+      margin-bottom: 15px;
+      color: #777;
+    }
+    .expert-card button {
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .expert-card button:hover {
+      background-color: #45a049;
+    }
+    
+    /* Modal Popup Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 80px auto;
+      padding: 20px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 600px;
+      position: relative;
+    }
+    .close-modal {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 28px;
+      font-weight: bold;
+      color: #aaa;
+      cursor: pointer;
+    }
+    .close-modal:hover {
+      color: #000;
+    }
+    .expert-details {
+      text-align: center;
+      color: #333;
+    }
+    .expert-details img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+    }
+    .expert-details h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    .expert-details h3 {
+      font-size: 20px;
+      margin-bottom: 15px;
+      color: #777;
+    }
+    .expert-details p {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    .expert-details .contact-btn {
+      display: inline-block;
+      margin-top: 15px;
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 16px;
+    }
+    .expert-details .contact-btn:hover {
+      background-color: #45a049;
+    }
+  </style>
+  
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <!-- Background Video -->
+  <video autoplay muted loop playsinline preload="auto" class="video-background" poster="/images/firstBg.png">
+    <source src="/videos/bg-video.mp4" type="video/mp4">
+    Your browser does not support HTML5 video.
+  </video>
+  <!-- Video Overlay -->
+  <div class="video-overlay"></div>
+  
+  <!-- Navigation Bar (external nav.css handles the styling) -->
+  <nav class="navbar">
+    <ul>
+      <li><a href="/index.html" title="Home">Home</a></li>
+      <li><a href="/html/categories.html" title="Categories">Categories</a></li>
+      <li><a href="/html/about.html" title="About Us">About Us</a></li>
+      <li><a href="/html/contact.html" title="Contact">Contact</a></li>
+      <li><a href="/html/signup.html" title="Sign-Up">Sign-Up</a></li>
+      <li><a href="/html/experts.html" title="Experts" class="active">Experts</a></li>
+    </ul>
+  </nav>
+  
+  <!-- Experts Main Content -->
+  <div class="main-container">
+    <div class="content experts-content">
+      <h1>Meet Our Experts</h1>
+      <p>
+        Our team of herbal gardening professionals is ready to help you nurture a thriving Virtual Herbal Garden.
+        Click on an expert below to view full details and connect.
+      </p>
+      <div class="experts-grid">
+        <!-- Expert Card 1 -->
+        <div class="expert-card">
+          <img src="/images/expert1.jpg" alt="Dr. Emily Green" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'120\' height=\'120\' viewBox=\'0 0 24 24\' fill=\'%23ccc\'%3E%3Cpath d=\'M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z\'/%3E%3C/svg%3E';" />
+          <h2>Dr. Emily Green</h2>
+          <h3>Herbal Botanist</h3>
+          <button data-modal="modal-expert1">View Details</button>
+        </div>
+        <!-- Expert Card 2 -->
+        <div class="expert-card">
+          <img src="/images/expert2.jpg" alt="John Doe" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'120\' height=\'120\' viewBox=\'0 0 24 24\' fill=\'%23ccc\'%3E%3Cpath d=\'M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z\'/%3E%3C/svg%3E';" />
+          <h2>John Doe</h2>
+          <h3>Garden Consultant</h3>
+          <button data-modal="modal-expert2">View Details</button>
+        </div>
+        <!-- Expert Card 3 -->
+        <div class="expert-card">
+          <img src="/images/expert3.jpg" alt="Sarah Botanist" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'120\' height=\'120\' viewBox=\'0 0 24 24\' fill=\'%23ccc\'%3E%3Cpath d=\'M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z\'/%3E%3C/svg%3E';" />
+          <h2>Sarah Botanist</h2>
+          <h3>Remedies Specialist</h3>
+          <button data-modal="modal-expert3">View Details</button>
+        </div>
+        <!-- Expert Card 4 -->
+        <div class="expert-card">
+          <img src="/images/expert4.jpg" alt="Dr. Alice Herbal" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'120\' height=\'120\' viewBox=\'0 0 24 24\' fill=\'%23ccc\'%3E%3Cpath d=\'M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z\'/%3E%3C/svg%3E';" />
+          <h2>Dr. Alice Herbal</h2>
+          <h3>Plant Physiologist</h3>
+          <button data-modal="modal-expert4">View Details</button>
+        </div>
+        <!-- Expert Card 5 -->
+        <div class="expert-card">
+          <img src="/images/expert5.jpg" alt="Bob Gardener" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'120\' height=\'120\' viewBox=\'0 0 24 24\' fill=\'%23ccc\'%3E%3Cpath d=\'M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z\'/%3E%3C/svg%3E';" />
+          <h2>Bob Gardener</h2>
+          <h3>Sustainable Agriculturist</h3>
+          <button data-modal="modal-expert5">View Details</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal for Expert 1 -->
+  <div id="modal-expert1" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <div class="expert-details">
+        <img src="/images/expert1.jpg" alt="Dr. Emily Green" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'150\' viewBox=\'0 0 24 24\' fill=\'%23ccc\'%3E%3Cpath d=\'M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z\'/%3E%3C/svg%3E';" />
+        <h2>Dr. Emily Green</h2>
+        <h3>Herbal Botanist</h3>
+        <p>
+          With over 15 years of experience, Dr. Green specializes in medicinal plants and organic gardening.
+          Her expertise lies in natural remedies and sustainable cultivation practices.
+        </p>
+        <a href="mailto:emily.green@virtualherbalgarden.com" class="contact-btn">Contact</a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal for Expert 2 -->
+  <div id="modal-expert2" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <div class="expert-details">
+        <img src="/images/expert2.jpg" alt="John Doe" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'150\' viewBox=\'0 0 24 24\' fill=\'%23ccc\'%3E%3Cpath d=\'M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z\'/%3E%3C/svg%3E';" />
+        <h2>John Doe</h2>
+        <h3>Garden Consultant</h3>
+        <p>
+          John offers expert advice on garden design, soil management, and sustainable plant care.
+          His tailored recommendations help optimize garden productivity and aesthetics.
+        </p>
+        <a href="mailto:john.doe@virtualherbalgarden.com" class="contact-btn">Contact</a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal for Expert 3 -->
+  <div id="modal-expert3" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <div class="expert-details">
+        <img src="/images/expert3.jpg" alt="Sarah Botanist" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'150\' viewBox=\'0 0 24 24\' fill=\'%23ccc\'%3E%3Cpath d=\'M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z\'/%3E%3C/svg%3E';" />
+        <h2>Sarah Botanist</h2>
+        <h3>Remedies Specialist</h3>
+        <p>
+          Sarah specializes in herbal remedies and natural healing. She provides practical advice on integrating
+          medicinal plants into daily routines to improve well‑being.
+        </p>
+        <a href="mailto:sarah.botanist@virtualherbalgarden.com" class="contact-btn">Contact</a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal for Expert 4 -->
+  <div id="modal-expert4" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <div class="expert-details">
+        <img src="/images/expert4.jpg" alt="Dr. Alice Herbal" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'150\' viewBox=\'0 0 24 24\' fill=\'%23ccc\'%3E%3Cpath d=\'M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z\'/%3E%3C/svg%3E';" />
+        <h2>Dr. Alice Herbal</h2>
+        <h3>Plant Physiologist</h3>
+        <p>
+          Dr. Alice Herbal is a specialist in plant physiology and sustainable farming practices.
+          Her research focuses on optimizing plant growth through ethical and eco-friendly methods.
+        </p>
+        <a href="mailto:alice.herbal@virtualherbalgarden.com" class="contact-btn">Contact</a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal for Expert 5 -->
+  <div id="modal-expert5" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <div class="expert-details">
+        <img src="/images/expert5.jpg" alt="Bob Gardener" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'150\' height=\'150\' viewBox=\'0 0 24 24\' fill=\'%23ccc\'%3E%3Cpath d=\'M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z\'/%3E%3C/svg%3E';" />
+        <h2>Bob Gardener</h2>
+        <h3>Sustainable Agriculturist</h3>
+        <p>
+          Bob is passionate about eco-friendly gardening techniques and sustainable agriculture.
+          His practical advice helps gardeners minimize waste while maximizing growth potential.
+        </p>
+        <a href="mailto:bob.gardener@virtualherbalgarden.com" class="contact-btn">Contact</a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <footer class="footer">
+    <span>&copy; 2025 Virtual Herbal Garden</span>
+    <a href="#top" title="Back to Top">Back to Top</a>
+  </footer>
+  
+  <!-- Modal Script -->
+  <script>
+    // Get all buttons to open modals.
+    const modalButtons = document.querySelectorAll('.expert-card button');
+    modalButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const modalId = button.getAttribute('data-modal');
+        const modal = document.getElementById(modalId);
+        if (modal) {
+          modal.style.display = 'block';
+        }
+      });
+    });
+    // Get all close buttons.
+    const closeModals = document.querySelectorAll('.close-modal');
+    closeModals.forEach(span => {
+      span.addEventListener('click', () => {
+        span.parentElement.parentElement.style.display = 'none';
+      });
+    });
+    // Close modal when clicking outside modal-content.
+    window.addEventListener('click', (event) => {
+      const modals = document.querySelectorAll('.modal');
+      modals.forEach(modal => {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

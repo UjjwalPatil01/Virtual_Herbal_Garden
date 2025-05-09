@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore - Virtual Herbal Garden</title>
+  <!-- Google Fonts for modern typography -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <link rel="stylesheet" href="/css/nav.css">
+  <link rel="stylesheet" href="/css/get_started.css">
+</head>
+
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <!-- Back Button (using history.back()) -->
+    <div class="back-btn">
+      <a href="javascript:history.back()" title="Back">Back</a>
+    </div>
+    <ul>
+      <li><a href="/index.html" title="Home">Home</a></li>
+      <li><a href="/html/categories.html" title="Categories">Categories</a></li>
+      <li><a href="/html/about.html" title="About Us">About Us</a></li>
+      <li><a href="/html/contact.html" title="Contact">Contact</a></li>
+      <li><a href="/html/signup.html" title="Sign-Up">Sign-Up</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="container">
+    <h1 class="explore-title">Explore Virtual Herbal Garden</h1>
+    <p class="explore-description">
+      Begin your journey into the vibrant world of plants. Challenge your knowledge with fun quizzes,<br>
+      or browse our selection to create your own green companion.
+    </p>
+
+    <!-- Current Features Section -->
+    <h2 class="section-title">Current Features</h2>
+    <div class="cards-container">
+      <div class="card" onclick="window.location.href='/html/quizzes.html'">
+        <h3>Plant Quizzes</h3>
+        <p>Engage with interactive quizzes to discover fascinating facts about plants and herbs.</p>
+      </div>
+      <div class="card" onclick="window.location.href='/html/3d_garden.html'">
+        <h3>3D Garden</h3>
+        <p>Explore an immersive 3D garden experience and interact with lifelike plant models.</p>
+      </div>
+    </div>
+
+    <!-- Coming Soon Section -->
+    <h2 class="section-title">Future Scope</h2>
+    <div class="cards-container">
+      <div class="card">
+        <h3>Chat Bot</h3>
+        <p>Interact with our Chat Bot for personalized gardening advice.</p>
+      </div>
+      <div class="card" onclick="window.location.href='/experts/main.html'">
+        <h3>Experts Hub</h3>
+        <p>Connect with horticultural experts for personalized tips and insights.</p>
+      </div>
+      <div class="card coming-soon">
+        <h3>Green Store</h3>
+        <p>Shop for your favorite plants and gardening supplies in our upcoming store.</p>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

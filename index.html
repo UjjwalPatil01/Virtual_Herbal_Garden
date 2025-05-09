@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Virtual Herbal Garden</title>
+    <!-- Google Fonts for modern typography -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <!-- Added styles for chatbot -->
+    <style>
+        /* Chat Bot Styles */
+        .chat-bot-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .chat-bot-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .chat-bot-icon i {
+            color: white;
+            font-size: 28px;
+        }
+
+        .chat-container {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 450px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .chat-header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header .close-chat {
+            cursor: pointer;
+            font-size: 18px;
+        }
+        
+        .chat-header .clear-history {
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #f5f5f5;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            max-width: 80%;
+            padding: 10px;
+            border-radius: 10px;
+            clear: both;
+            word-wrap: break-word;
+        }
+
+        .bot-message {
+            background-color: #e6f7ff;
+            float: left;
+        }
+
+        .user-message {
+            background-color: #dcf8c6;
+            float: right;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .chat-input input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            margin-right: 10px;
+        }
+
+        .chat-input button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .chat-input button:hover {
+            background-color: #45a049;
+        }
+
+        /* Clear float to ensure proper layout */
+        .clearfix:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* Date indicator */
+        .date-indicator {
+            text-align: center;
+            margin: 10px 0;
+            font-size: 12px;
+            color: #777;
+            clear: both;
+        }
+
+        /* Loading spinner */
+        .typing-indicator {
+            display: none;
+            padding: 10px;
+            background-color: #e6f7ff;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            float: left;
+            clear: both;
+        }
+
+        .typing-indicator span {
+            height: 8px;
+            width: 8px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+            animation: typing 1s infinite ease-in-out;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+    </style>
+    <!-- Font Awesome for chat icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <!-- Background Video -->
+    <video autoplay muted loop playsinline preload="auto" class="video-background" poster="/images/firstBg.png">
+        <source src="/videos/bg-video.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+
+    <!-- Video Overlay -->
+    <div class="video-overlay"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="/index.html" title="Home">Home</a></li>
+            <li><a href="/html/categories.html" title="Categories">Categories</a></li>
+            <li><a href="/html/about.html" title="About Us">About Us</a></li>
+            <li><a href="/html/contact.html" title="Contact">Contact</a></li>
+            <li><a href="/html/signup.html" title="Sign-Up">Sign-Up</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Container for Centered Content -->
+    <div class="main-container">
+        <div class="content">
+            <div class="welcome-text">Welcome to Virtual Herbal Garden</div>
+            <button class="get-started-btn" onclick="navigateTo('html/get_started.html')">Get Started</button>
+            <div class="quote">"Look deep into nature, and then you will understand everything better."</div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <span>&copy; 2025 Virtual Herbal Garden</span>
+        <a href="#top" title="Back to Top">Back to Top</a>
+    </footer>
+
+    <!-- Chat Bot Icon -->
+    <div class="chat-bot-icon" id="chatBotIcon">
+        <i class="fas fa-leaf"></i>
+    </div>
+
+    <!-- Chat Container -->
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-header">
+            <span>Virtual Herbal Garden Bot 🌿</span>
+            <span class="clear-history" id="clearHistory">Clear Chat</span>
+            <span class="close-chat" id="closeChat">×</span>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot-message">
+                Hello! I'm your Virtual Herbal Garden assistant. Ask me about any herbs or medicinal plants! 🌱
+            </div>
+            <div class="typing-indicator" id="typingIndicator">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Type your question...">
+            <button id="sendBtn">Send</button>
+        </div>
+    </div>
+
+    <script>
+        function navigateTo(pageUrl) {
+            window.location.href = pageUrl;
+        }
+
+        // Chat Bot Script
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatBotIcon = document.getElementById('chatBotIcon');
+            const chatContainer = document.getElementById('chatContainer');
+            const closeChat = document.getElementById('closeChat');
+            const clearHistory = document.getElementById('clearHistory');
+            const chatMessages = document.getElementById('chatMessages');
+            const userInput = document.getElementById('userInput');
+            const sendBtn = document.getElementById('sendBtn');
+            const typingIndicator = document.getElementById('typingIndicator');
+            
+            // Initialize chat container display state
+            chatContainer.style.display = 'none';
+            
+            // API Key for Gemini
+            const API_KEY = "AIzaSyBhHJnChDfxi6bgoyWxdQ8TOzgCIJ4HAVc";
+            const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+            
+            // Chat history storage key
+            const CHAT_HISTORY_KEY = 'virtualHerbalGardenChatHistory';
+            
+            // Load chat history from localStorage
+            function loadChatHistory() {
+                try {
+                    const savedHistory = localStorage.getItem(CHAT_HISTORY_KEY);
+                    if (savedHistory) {
+                        const history = JSON.parse(savedHistory);
+                        
+                        // Clear current messages except the welcome message and typing indicator
+                        while (chatMessages.children.length > 2) {
+                            chatMessages.removeChild(chatMessages.children[1]);
+                        }
+                        
+                        // Add date separators and load messages
+                        let currentDate = '';
+                        history.forEach(item => {
+                            // Check if we need a date separator
+                            const messageDate = new Date(item.timestamp).toLocaleDateString();
+                            if (messageDate !== currentDate) {
+                                currentDate = messageDate;
+                                addDateSeparator(currentDate);
+                            }
+                            
+                            // Add the message
+                            const messageDiv = document.createElement('div');
+                            messageDiv.classList.add('message', item.sender === 'user' ? 'user-message' : 'bot-message');
+                            messageDiv.innerHTML = item.message;
+                            chatMessages.insertBefore(messageDiv, typingIndicator);
+                            
+                            // Add clearfix
+                            const clearfixDiv = document.createElement('div');
+                            clearfixDiv.className = 'clearfix';
+                            chatMessages.insertBefore(clearfixDiv, typingIndicator);
+                        });
+                        
+                        // Scroll to bottom
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }
+                } catch (e) {
+                    console.error('Error loading chat history:', e);
+                    // If there's an error, clear the history to prevent future errors
+                    localStorage.removeItem(CHAT_HISTORY_KEY);
+                }
+            }
+            
+            // Save message to history
+            function saveMessageToHistory(message, sender) {
+                try {
+                    let history = [];
+                    const savedHistory = localStorage.getItem(CHAT_HISTORY_KEY);
+                    
+                    if (savedHistory) {
+                        history = JSON.parse(savedHistory);
+                    }
+                    
+                    // Add new message with timestamp
+                    history.push({
+                        message: message,
+                        sender: sender,
+                        timestamp: new Date().toISOString()
+                    });
+                    
+                    // Save back to localStorage (limit to last 50 messages to prevent storage issues)
+                    if (history.length > 50) {
+                        history = history.slice(history.length - 50);
+                    }
+                    
+                    localStorage.setItem(CHAT_HISTORY_KEY, JSON.stringify(history));
+                } catch (e) {
+                    console.error('Error saving chat history:', e);
+                }
+            }
+            
+            // Add date separator
+            function addDateSeparator(dateString) {
+                const dateDiv = document.createElement('div');
+                dateDiv.className = 'date-indicator';
+                dateDiv.textContent = dateString;
+                chatMessages.insertBefore(dateDiv, typingIndicator);
+            }
+            
+            // Clear chat history
+            clearHistory.addEventListener('click', function() {
+                if (confirm('Are you sure you want to clear your chat history?')) {
+                    localStorage.removeItem(CHAT_HISTORY_KEY);
+                    
+                    // Clear messages from the DOM except welcome message
+                    while (chatMessages.children.length > 2) {
+                        chatMessages.removeChild(chatMessages.children[1]);
+                    }
+                    
+                    // Add clearfix after welcome message
+                    const clearfixDiv = document.createElement('div');
+                    clearfixDiv.className = 'clearfix';
+                    chatMessages.insertBefore(clearfixDiv, typingIndicator);
+                }
+            });
+            
+            // Load history when page loads
+            loadChatHistory();
+
+            // Toggle chat container
+            chatBotIcon.addEventListener('click', function() {
+                if (chatContainer.style.display === 'none' || chatContainer.style.display === '') {
+                    chatContainer.style.display = 'flex';
+                    userInput.focus();
+                } else {
+                    chatContainer.style.display = 'none';
+                }
+            });
+
+            // Close chat
+            closeChat.addEventListener('click', function() {
+                chatContainer.style.display = 'none';
+            });
+
+            // Send message on button click
+            sendBtn.addEventListener('click', sendMessage);
+
+            // Send message on Enter key
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            function sendMessage() {
+                const message = userInput.value.trim();
+                if (message === '') return;
+
+                // Add user message to chat
+                addMessage(message, 'user');
+                userInput.value = '';
+
+                // Show typing indicator
+                typingIndicator.style.display = 'block';
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                // Create a message to send to API
+                const requestData = {
+                    contents: [{
+                        parts: [{
+                            text: `You are a friendly and expert herbal gardening assistant called "Virtual Herbal Garden Bot".
+Your job is to help users by answering questions about herbs and medicinal plants. Focus on the following when replying:
+- Give a short description of the plant
+- Mention growing conditions (sunlight, soil, water, climate)
+- Include care tips (watering frequency, harvesting)
+- List uses (medicinal or culinary)
+Keep responses conversational, clear, and helpful. Use emojis where appropriate 🌱☀💧 and structure answers with headings.
+If the user asks about an unknown plant, politely respond that you don't have data on it and suggest popular alternatives like Tulsi, Mint, Aloe Vera, etc.
+Act as a chatbot that replies directly to each user question — no intro or outro, just answer the question naturally and helpfully.
+
+User question: ${message}`
+                        }]
+                    }]
+                };
+
+                // Call API
+                fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestData)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Hide typing indicator
+                    typingIndicator.style.display = 'none';
+                    
+                    // Process the response
+                    if (data && data.candidates && data.candidates.length > 0 && 
+                        data.candidates[0].content && data.candidates[0].content.parts && 
+                        data.candidates[0].content.parts.length > 0) {
+                        
+                        const botResponse = data.candidates[0].content.parts[0].text;
+                        
+                        // Extract just the direct answer (skip any intro phrases about being a bot)
+                        let cleanResponse = botResponse;
+                        
+                        // Remove any intro text like "As a Virtual Herbal Garden Bot"
+                        const introPatterns = [
+                            /^As (?:a|an|the) (?:Virtual Herbal Garden Bot|herbal gardening assistant|herb expert).?,\s/i,
+                            /^I'm (?:a|an|the) (?:Virtual Herbal Garden Bot|herbal gardening assistant|herb expert).?,\s/i,
+                            /^(?:Virtual Herbal Garden Bot|herbal gardening assistant|herb expert) here.?,\s/i
+                        ];
+                        
+                        for (const pattern of introPatterns) {
+                            cleanResponse = cleanResponse.replace(pattern, '');
+                        }
+                        
+                        // Add the cleaned response to the chat
+                        addMessage(cleanResponse, 'bot');
+                    } else {
+                        // Handle unexpected response format
+                        addMessage("I'm having trouble processing your question. Please try again.", 'bot');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    typingIndicator.style.display = 'none';
+                    addMessage("Sorry, I couldn't connect to my knowledge base. Please try again later.", 'bot');
+                });
+            }
+
+            function addMessage(message, sender) {
+                // Check if we need to add a date separator (for first message or new day)
+                const today = new Date().toLocaleDateString();
+                const lastDateDiv = Array.from(chatMessages.querySelectorAll('.date-indicator')).pop();
+                
+                if (!lastDateDiv || lastDateDiv.textContent !== today) {
+                    addDateSeparator(today);
+                }
+                
+                // Create message element
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
+                
+                // Process message for bot responses - convert markdown-like syntax to HTML
+                if (sender === 'bot') {
+                    // Convert *text* to <strong>text</strong>
+                    message = message.replace(/\\(.?)\\*/g, '<strong>$1</strong>');
+                    
+                    // Convert # Heading to <h3>Heading</h3>
+                    message = message.replace(/^#\s+(.*?)$/gm, '<h3>$1</h3>');
+                    
+                    // Convert newlines to <br>
+                    message = message.replace(/\n/g, '<br>');
+                }
+                
+                messageDiv.innerHTML = message;
+                
+                // Add a clearfix div after each message
+                const clearfixDiv = document.createElement('div');
+                clearfixDiv.className = 'clearfix';
+                
+                // Add the message and clearfix to chat
+                chatMessages.insertBefore(messageDiv, typingIndicator);
+                chatMessages.insertBefore(clearfixDiv, typingIndicator);
+                
+                // Save message to history
+                saveMessageToHistory(message, sender);
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        });
+    </script>
+</body>
+
+</html>

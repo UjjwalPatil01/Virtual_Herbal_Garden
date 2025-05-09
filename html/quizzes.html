@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive Quiz Gallery - Virtual Herbal Garden</title>
+  
+  <!-- Google Fonts for modern typography -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/nav.css">
+  <link rel="stylesheet" href="/css/quizzes.css">
+  <!-- Model Viewer Library (for potential 3D effects in the future) -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+</head>
+<body>  
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="back-btn">
+      <a href="javascript:history.back()" title="Back to Previous Page">Back</a>
+    </div>
+    <ul>
+      <li><a href="/index.html" title="Home">Home</a></li>
+      <li><a href="/html/categories.html" title="Categories">Categories</a></li>
+      <li><a href="/html/about.html" title="About Us">About Us</a></li>
+      <li><a href="/html/contact.html" title="Contact">Contact</a></li>
+      <li><a href="/html/signup.html" title="Sign-Up">Sign-Up</a></li>
+    </ul>
+  </nav>
+  
+  <!-- Main Content -->
+  <main>
+    <!-- Header Section -->
+    <header class="header">
+      <h1>Interactive Quiz Gallery</h1>
+      <p>Discover and challenge yourself with our quizzes</p>
+    </header>
+    
+    <!-- Main Quiz Gallery Grid -->
+    <section class="quiz-grid">
+      <!-- Quiz Card 1 -->
+      <div class="quiz-card" data-embed="https://quizizz.com/embed/quiz/67e509201e8efd172ea14358">
+        <h2>Quiz 1</h2>
+        <p>Click to take the quiz.</p>
+      </div>
+      <!-- Quiz Card 2 -->
+      <div class="quiz-card" data-embed="https://quizizz.com/embed/quiz/67e50ec13bbd40fc0ae2b4a2">
+        <h2>Quiz 2</h2>
+        <p>Click to take the quiz.</p>
+      </div>
+      <!-- Quiz Card 3 -->
+      <div class="quiz-card" data-embed="https://quizizz.com/embed/quiz/67e6c1ba4446a270b487f908">
+        <h2>Quiz 3</h2>
+        <p>Click to take the quiz.</p>
+      </div>
+      <!-- Quiz Card 4 -->
+      <div class="quiz-card" data-embed="https://quizizz.com/embed/quiz/67e6d4fde4b8de7eb273833e">
+        <h2>Quiz 4</h2>
+        <p>Click to take the quiz.</p>
+      </div>
+    </section>
+  </main>
+  
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Virtual Herbal Garden. All Rights Reserved.
+  </footer>
+  
+  <!-- Modal Container for Quiz Iframe -->
+  <div id="quizModal" class="modal">
+    <span class="close">&times;</span>
+    <div class="modal-content">
+      <iframe id="quizIframe" src="" title="Quiz Content"></iframe>
+    </div>
+  </div>
+  
+  <!-- JavaScript for Modal Interaction -->
+  <script>
+    // Get modal elements
+    const modal = document.getElementById('quizModal');
+    const modalIframe = document.getElementById('quizIframe');
+    const closeBtn = document.querySelector('.close');
+    const quizCards = document.querySelectorAll('.quiz-card');
+    
+    // Open modal on quiz card click
+    quizCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const embedUrl = card.getAttribute('data-embed');
+        modal.style.display = 'block';
+        modalIframe.src = embedUrl;
+      });
+    });
+    
+    // Close modal when clicking on the close button or outside modal content
+    closeBtn.addEventListener('click', closeModal);
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+    
+    // Function to close modal and reset iframe src
+    function closeModal() {
+      modal.style.display = 'none';
+      modalIframe.src = "";
+    }
+  </script>
+</body>
+</html>
